@@ -119,3 +119,35 @@ int main (int argc, char *argv[]) {
 
   return 0;
 }
+
+///// O U T P U T /////
+
+// vipyne $ gcc stacksonstacksonstacks.c -o stack
+// vipyne $ ./stack 4 7 2 58
+// push 4
+// 4, push 7
+// 7, push 2
+// 2, push 58
+// 58,
+// pop 58
+// pop 2
+// pop 7
+// pop 4
+// Sorry, cannot pop from stack; it is empty.
+// Sorry, cannot pop from stack; it is empty.
+
+// push 465
+// push 5
+// push 18
+// push 8443
+// push 19
+// push 133
+// push 6519
+// push 12
+// push 42
+// push 15
+// Sorry, cannot push 139 to stack; capacity is full.
+// Sorry, cannot push 82 to stack; capacity is full.
+// 465, 5, 18, 8443, 19, 133, 6519, 12, 42, 15,
+// pop 15
+// 465, 5, 18, 8443, 19, 133, 6519, 12, 42,
