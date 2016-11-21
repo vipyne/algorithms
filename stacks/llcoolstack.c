@@ -23,9 +23,10 @@ struct Node {
 
 int is_empty(struct LL_Cool_Stack *cool_stack)
 {
-  printf("Stack cout` %d . \n", cool_stack->count);
+  // printf("Stack is empty - count %d . \n", cool_stack->count);
 
   if (cool_stack->count <= 0) {
+  printf("inside empty - count %d . \n", cool_stack->count);
     return 1;
   }
   return 0;
@@ -33,7 +34,9 @@ int is_empty(struct LL_Cool_Stack *cool_stack)
 
 int is_full(struct LL_Cool_Stack *cool_stack)
 {
+  // printf("Stack is FULL - count %d . \n", cool_stack->count);
   if (cool_stack->count >= CAPACITY - 1) {
+  printf("inside  FULL - count %d . \n", cool_stack->count);
     return 1;
   }
   return 0;
@@ -42,12 +45,13 @@ int is_full(struct LL_Cool_Stack *cool_stack)
 int push(struct LL_Cool_Stack *cool_stack, int new_number)
 {
   if (is_full(cool_stack) == 0) {
-    struct Node new_node;
-    new_node.number = new_number;
-    struct Node *temp = cool_stack->current_top;
-    temp->next = &new_node;
-    cool_stack->current_top = &new_node;
+    struct Node *new_node = (struct Node*)malloc(sizeof(struct Node));
+    new_node->number = new_number;
+    // struct Node *temp = cool_stack->current_top;
+    cool_stack->current_top->next = new_node;
+    cool_stack->current_top = new_node;
     cool_stack->count++;
+    printf("push %d \n", new_number);
     return 0;
   }
 
@@ -66,11 +70,15 @@ int peek(struct LL_Cool_Stack *cool_stack)
 
 int pop(struct LL_Cool_Stack *cool_stack)
 {
+    printf("2345345345-------, ");
+
   if (!is_empty(cool_stack)) {
+    printf("---wefs-ds-df-sdf-dsf-sd-fsd-fsd-fsd---, \n");
     int top_number = cool_stack->current_top->number;
-    struct Node *temp = cool_stack->current_top;
-    cool_stack->current_top = temp->next;
+    // struct Node *temp = cool_stack->current_top;
+    cool_stack->current_top = cool_stack->current_top->next;
     cool_stack->count--;
+    printf("pop %d \n", top_number);
     return top_number;
   }
 
@@ -94,7 +102,9 @@ int main (int argc, char *argv[]) {
   }
   printf("\n");
 
+    printf("1 after pop op opopo popp count-------------%d, ",cool_stack.count);
   pop(&cool_stack);
+    printf("2 after pop op opopo popp count-------------%d, ",cool_stack.count);
   pop(&cool_stack);
   pop(&cool_stack);
   pop(&cool_stack);
@@ -105,6 +115,7 @@ int main (int argc, char *argv[]) {
 
   struct Node *interate_node = cool_stack.current_top;
   for (int i = 0; i <= cool_stack.count; ++i) {
+    printf("count-------------%d, ",cool_stack.count);
     printf("%d, ", interate_node->number);
     interate_node = interate_node->next;
   }
@@ -123,20 +134,30 @@ int main (int argc, char *argv[]) {
   push(&cool_stack, 139);
   push(&cool_stack, 82);
 
+
+  printf("blahblah blah blah. \n");
+
+
   struct Node *second_interate_node = cool_stack.current_top;
-  for (int i = 0; i <= cool_stack.count; ++i) {
-    printf("%d, ", second_interate_node->number);
+  for (int i = cool_stack.count; i >= 0; --i) {
+    printf("count-------------%d, ",cool_stack.count);
+  printf("11111111111111111. \n");
+    printf("two %d, ", second_interate_node->number);
     second_interate_node = second_interate_node->next;
   }
   printf("\n");
+  printf("2. \n");
 
   pop(&cool_stack);
+  printf("3. \n");
 
   struct Node *third_interate_node = cool_stack.current_top;
-  for (int i = 0; i <= cool_stack.count; ++i) {
-    printf("%d, ", third_interate_node->number);
+  printf("2 - -2-2- -2-2-2-. \n");
+  for (int i = cool_stack.count; i >= 0; --i) {
+    printf("three %d, ", third_interate_node->number);
     third_interate_node = third_interate_node->next;
   }
+  printf("4444. \n");
   printf("\n");
   printf("\n");
 
