@@ -47,8 +47,11 @@ int push(struct LL_Cool_Stack *cool_stack, int new_number)
   if (is_full(cool_stack) == 0) {
     struct Node *new_node = (struct Node*)malloc(sizeof(struct Node));
     new_node->number = new_number;
-    // struct Node *temp = cool_stack->current_top;
-    cool_stack->current_top->next = new_node;
+    if ( !(cool_stack->count == 0) ) {
+      printf("inside if \n");
+      new_node->next = cool_stack->current_top;
+      // cool_stack->current_top->next = new_node;
+    }
     cool_stack->current_top = new_node;
     cool_stack->count++;
     printf("push %d \n", new_number);
@@ -90,16 +93,31 @@ int pop(struct LL_Cool_Stack *cool_stack)
 int main (int argc, char *argv[]) {
 
   struct Node curr_top;
+  curr_top.number = 900;
+  curr_top.next = NULL;
+
   struct LL_Cool_Stack cool_stack;
 
   cool_stack.current_top = &curr_top;
   cool_stack.capacity = CAPACITY;
-  cool_stack.count = 0;
+  cool_stack.count = 1;
+
 
   for (int i = 1; i < argc; ++i) {
     push(&cool_stack, atoi(argv[i]));
-    printf("%s, ", argv[i]);
+    printf("argv::%s, ", argv[i]);
   }
+  printf("\n");
+    printf("argv:--:count:--: %d\n", cool_stack.count);
+
+  struct Node *temp_placeholder;
+  temp_placeholder = cool_stack.current_top;
+
+  while (temp_placeholder != NULL) {
+    printf("%d, ", temp_placeholder->number);
+    temp_placeholder = temp_placeholder->next;
+  }
+  printf("\n");
   printf("\n");
 
     printf("1 after pop op opopo popp count-------------%d, ",cool_stack.count);
@@ -113,11 +131,10 @@ int main (int argc, char *argv[]) {
   pop(&cool_stack);
   pop(&cool_stack);
 
-  struct Node *interate_node = cool_stack.current_top;
-  for (int i = 0; i <= cool_stack.count; ++i) {
-    printf("count-------------%d, ",cool_stack.count);
-    printf("%d, ", interate_node->number);
-    interate_node = interate_node->next;
+  temp_placeholder = cool_stack.current_top;
+  while (temp_placeholder != NULL) {
+    printf("%d, ", temp_placeholder->number);
+    temp_placeholder = temp_placeholder->next;
   }
   printf("\n");
 
@@ -134,29 +151,28 @@ int main (int argc, char *argv[]) {
   push(&cool_stack, 139);
   push(&cool_stack, 82);
 
-
+  temp_placeholder = cool_stack.current_top;
+  while (temp_placeholder != NULL && temp_placeholder->next != NULL) {
   printf("blahblah blah blah. \n");
-
-
-  struct Node *second_interate_node = cool_stack.current_top;
-  for (int i = cool_stack.count; i >= 0; --i) {
-    printf("count-------------%d, ",cool_stack.count);
-  printf("11111111111111111. \n");
-    printf("two %d, ", second_interate_node->number);
-    second_interate_node = second_interate_node->next;
+    printf("%d, ", temp_placeholder->number);
+    temp_placeholder = temp_placeholder->next;
   }
+
   printf("\n");
-  printf("2. \n");
+  printf("\n");
+  printf("2 2 2 2 2 2 2 2 22 . \n");
 
   pop(&cool_stack);
+
   printf("3. \n");
 
-  struct Node *third_interate_node = cool_stack.current_top;
-  printf("2 - -2-2- -2-2-2-. \n");
-  for (int i = cool_stack.count; i >= 0; --i) {
-    printf("three %d, ", third_interate_node->number);
-    third_interate_node = third_interate_node->next;
+  temp_placeholder = cool_stack.current_top;
+  while (temp_placeholder != NULL && temp_placeholder->next != NULL) {
+  printf("derp. \n");
+    printf("%d, ", temp_placeholder->number);
+    temp_placeholder = temp_placeholder->next;
   }
+
   printf("4444. \n");
   printf("\n");
   printf("\n");
