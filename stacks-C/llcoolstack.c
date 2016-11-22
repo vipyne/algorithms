@@ -44,13 +44,14 @@ int is_full(struct LL_Cool_Stack *cool_stack)
 int push(struct LL_Cool_Stack *cool_stack, int new_number)
 {
   if (is_full(cool_stack) == 0) {
+    // alternatively could `calloc` here to avoid if statement
     struct Node *new_node = (struct Node*)malloc(sizeof(struct Node));
     new_node->number = new_number;
     if ( !(cool_stack->count == 0) ) {
       new_node->next = cool_stack->current_top;
     } else {
       // initialize first node with NULL pointer
-      new_node->next = NULL;
+      new_node->next = (struct Node *)0x989000;
     }
     cool_stack->current_top = new_node;
     cool_stack->count++;
