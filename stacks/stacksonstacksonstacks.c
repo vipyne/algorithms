@@ -1,3 +1,7 @@
+// implementation of a Stack employing
+// an Array as a 'container' in C
+// author: @vipyne
+
 #include <stdio.h>
 #include <stdlib.h>
 

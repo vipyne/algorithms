@@ -1,3 +1,7 @@
+// implementation of a Stack employing
+// a Linked List as a 'container' in C
+// author: @vipyne
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -32,6 +36,7 @@ int is_empty(struct LL_Cool_Stack *cool_stack)
 int is_full(struct LL_Cool_Stack *cool_stack)
 {
   if (cool_stack->count >= CAPACITY) {
+    return 1;
   }
   return 0;
 };
@@ -44,6 +49,7 @@ int push(struct LL_Cool_Stack *cool_stack, int new_number)
     if ( !(cool_stack->count == 0) ) {
       new_node->next = cool_stack->current_top;
     } else {
+      // initialize first node with NULL pointer
       new_node->next = NULL;
     }
     cool_stack->current_top = new_node;
@@ -61,7 +67,6 @@ int peek(struct LL_Cool_Stack *cool_stack)
   if (!is_empty(cool_stack)) {
     return cool_stack->current_top->number;
   }
-
   return 0;
 }
 
@@ -83,14 +88,14 @@ int pop(struct LL_Cool_Stack *cool_stack)
 int main (int argc, char *argv[]) {
 
   struct Node curr_top;
-  curr_top.number = 900;
+  curr_top.number = 0;
   curr_top.next = NULL;
 
   struct LL_Cool_Stack cool_stack;
 
   cool_stack.current_top = &curr_top;
   cool_stack.capacity = CAPACITY;
-  cool_stack.count = 1;
+  cool_stack.count = 0;
 
   for (int i = 1; i < argc; ++i) {
     push(&cool_stack, atoi(argv[i]));
@@ -117,6 +122,7 @@ int main (int argc, char *argv[]) {
   pop(&cool_stack);
   pop(&cool_stack);
 
+  printf("Current stack from top to bottom: (empty)\n");
   temp_placeholder = cool_stack.current_top;
   while (temp_placeholder != NULL) {
     printf("%d, ", temp_placeholder->number);
@@ -137,26 +143,76 @@ int main (int argc, char *argv[]) {
   push(&cool_stack, 139);
   push(&cool_stack, 82);
 
-  struct Node *t2emp_placeholder = (struct Node *)malloc(sizeof(struct Node));
-  t2emp_placeholder = cool_stack.current_top;
-  while(t2emp_placeholder != NULL && t2emp_placeholder->next != NULL) {
-    t2emp_placeholder = t2emp_placeholder->next;
+  printf("Current stack from top to bottom: \n");
+  // using malloc here not necessary, just a variation to
+  // illustrate another way of doing things
+  struct Node *malloced_temp_placeholder = (struct Node *)malloc(sizeof(struct Node));
+  malloced_temp_placeholder = cool_stack.current_top;
+  while(malloced_temp_placeholder->next != NULL) {
+    printf("%d, ", malloced_temp_placeholder->number);
+    malloced_temp_placeholder = malloced_temp_placeholder->next;
   }
-  free(t2emp_placeholder);
+  // print last number outside loop
+  // because it's next pointer is
+  // (and should be) NULL
+  printf("%d ", malloced_temp_placeholder->number);
+  free(malloced_temp_placeholder);
 
   printf("\n");
   printf("\n");
 
   pop(&cool_stack);
 
+  printf("Current stack from top to bottom: \n");
   temp_placeholder = cool_stack.current_top;
-  while (temp_placeholder != NULL && temp_placeholder->next != NULL) {
+  while (temp_placeholder->next != NULL) {
     printf("%d, ", temp_placeholder->number);
     temp_placeholder = temp_placeholder->next;
   }
+  printf("%d ", temp_placeholder->number);
 
   printf("\n");
   printf("\n");
 
   return 0;
 }
+
+///// O U T P U T /////
+
+// vipyne $ gcc llcoolstack.c -o llcoolstack.exe
+// vipyne $ ./llcoolstack.exe 2 6 7 657
+// push 2
+// 2, push 6
+// 6, push 7
+// 7, push 657
+// 657,
+// 657, 7, 6, 2,
+
+// pop 657
+// pop 7
+// pop 6
+// pop 2
+// Sorry, cannot pop from the stack; it is empty.
+// Sorry, cannot pop from the stack; it is empty.
+// Sorry, cannot pop from the stack; it is empty.
+// Sorry, cannot pop from the stack; it is empty.
+// Current stack from top to bottom:
+
+// push 465
+// push 5
+// push 18
+// push 8443
+// push 19
+// push 133
+// push 6519
+// push 12
+// push 42
+// push 15
+// Sorry, cannot push 139 to stack; capacity is full.
+// Sorry, cannot push 82 to stack; capacity is full.
+// Current stack from top to bottom:
+// 15, 42, 12, 6519, 133, 19, 8443, 18, 5, 465
+
+// pop 15
+// Current stack from top to bottom:
+// 42, 12, 6519, 133, 19, 8443, 18, 5, 465
