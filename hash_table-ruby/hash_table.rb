@@ -1,6 +1,3 @@
-# broken WIP
-require 'pry'
-
 class HashTable
 
   def initialize
