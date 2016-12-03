@@ -1,4 +1,5 @@
 # broken WIP
+require 'pry'
 
 class HashTable
 
@@ -7,13 +8,23 @@ class HashTable
     @dictionary = Array.new(@size)
   end
 
-  # riff on djb2 hash function
-  def hash_this(word)
-    hash = 5381
+  def iterate_through_this(word, prime)
     word.each_char do |char|
-      hash *= 33 + char.ord
+      prime *= 11 + char.ord
     end
-    hash % @size
+    prime
+  end
+
+  # riff on djb2 hash function (5381 was waaaaaaaay overkill for this scale)
+  def hash_this(word)
+    hash = 11
+    iterate_through_this(word, hash)
+    hash %= @size
+    if hash == 0
+      hash = 7
+      iterate_through_this(word, hash)
+    end
+    hash %= @size
   end
 
   def insert_this(word, hashed_word)
@@ -22,7 +33,7 @@ class HashTable
     elsif @dictionary[hashed_word].kind_of?(Array)
       @dictionary[hashed_word].push(word)
     else
-      @dictionary[hashed_word] = Array.new(2, @dictionary[hashed_word], word)
+      @dictionary[hashed_word] = Array.new(1, @dictionary[hashed_word]).push(word)
     end
   end
 
@@ -34,10 +45,10 @@ class HashTable
   def lookup(word)
     hashed_word = hash_this(word)
     if @dictionary[hashed_word] != nil
-      puts word
+      puts "\"#{word}\" is in dictionary"
       return word
     else
-      puts "#{word} is not in dictionary"
+      puts "\"#{word}\" is not in dictionary"
       return nil
     end
   end
@@ -45,12 +56,10 @@ class HashTable
   def delete_this(word)
     @dictionary[hash_this(word)] = nil
   end
-
 end
-
 dict = HashTable.new
 
 dict.add_this("juxtaposition")
 dict.add_this("elucidate")
 dict.lookup("juxtaposition")
-dict.lookup("cubical")
+dict.lookup("cubertical")
