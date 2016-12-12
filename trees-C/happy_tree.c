@@ -18,20 +18,12 @@ struct Node* create_node(char data)
 {
   struct Node* new_node = (struct Node*)calloc(1, sizeof(struct Node));
   new_node->data = data;
-  // new_node->parent = NULL;
-  // new_node->lesserChild = NULL;
-  // new_node->greaterChild = NULL;
-  // new_node->leftMostChild = NULL;
-  // new_node->rightSibling = NULL;
   return new_node;
 }
 
 // as if just linked list
 void add_node(struct Node* parent, struct Node* new_node)
 {
-  // Node letter = (struct Node)malloc(sizeof(struct Node));
-  // new_node.char_count = 1;
-
   if (parent->data < new_node->data) {
     if (parent->greaterChild > 0) {
       add_node(parent->greaterChild, new_node);
@@ -40,7 +32,6 @@ void add_node(struct Node* parent, struct Node* new_node)
       parent->greaterChild = new_node;
     }
    } else {
-    // if (parent->data < new_node->data) {
     if (parent->lesserChild > 0) {
       add_node(parent->lesserChild, new_node);
     } else {
@@ -48,24 +39,34 @@ void add_node(struct Node* parent, struct Node* new_node)
       parent->lesserChild = new_node;
     }
   }
+}
 
-
-  // new_node.leftMostChild = NULL;
-  // new_node.rightSibling = NULL;
+void print_char (struct Node *tree_root, int side)
+{
+  struct Node* preorder_node = (struct Node*)calloc(1, sizeof(struct Node));
+  if (side == 1) {
+    // left side of tree
+    preorder_node = tree_root->lesserChild;
+    if (preorder_node && ((preorder_node->lesserChild != NULL) || preorder_node->parent == NULL)) {
+      print_char (preorder_node, 1);
+    }
+  } else {
+    // right side of tree
+    preorder_node = tree_root->greaterChild;
+      if (preorder_node && ((preorder_node->greaterChild != NULL) || preorder_node->parent == NULL)) {
+      print_char (preorder_node, 0);
+    }
+  }
+  // if (preorder_node) {
+    printf("%c", preorder_node->data);
+  // }
+  // printf("%c", tree_root->data);
 }
 
 
 int main(void)
 {
-
   char string[] = "bodras$";
-
-  // unsigned int count = 0;
-  // // find middle number to be root:
-  // for (int i = 0; string[i] != '\0'; ++i) {
-  //   ++count;
-  // }
-
   struct Node word_root;
   word_root.data = string[0];
   // word_root.char_count = 1;
@@ -75,29 +76,37 @@ int main(void)
   // word_root.leftMostChild = NULL;
   // word_root.rightSibling = NULL;
 
-
-  // struct Node* temp_node = (struct Node*)calloc(1, sizeof(struct Node*));
   struct Node* temp_node = &word_root;
   temp_node->data = word_root.data;
   // TODO: deal with duplicate chars
   for (int i = 1; string[i] != '\0'; ++i) {
     struct Node* new_node = create_node(string[i]);
     add_node(&word_root, new_node);
-    // temp_node = new_node;
-    // temp_node->data = new_node->data;
   }
 
+  // // print preorder - ROOT, LEFT, RIGHT
+  // for (int i = 0; string[i] != '\0'; ++i) {
+  //   printf("%c", string[i]);
+  // }
+  // printf("\n");
+  // struct Node* preorder_node = &word_root;
+  // while (preorder_node->lesserChild != NULL) {
+  //   preorder_node = preorder_node->lesserChild;
+  // }
 
-  // print preorder - ROOT, LEFT, RIGHT
+  printf("%c", string[0]);
 
+  print_char(&word_root, 1);
+  printf("\n");
 
+  print_char(&word_root, 0);
+  printf("\n");
 
 
   // print postorder - LEFT, RIGHT, ROOT
+  // ...
 
-
-  printf("nerd\n");
-
+  printf("done\n");
 
   return 0;
 }
