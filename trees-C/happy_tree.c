@@ -4,7 +4,7 @@
 struct Node {
   // unsigned short int data;
   char data;
-  unsigned int char_count;
+  unsigned short int char_count;
 
   struct Node* parent;
   struct Node* lesserChild;
@@ -13,11 +13,11 @@ struct Node {
   // struct Node* rightSibling;
 };
 
-
 struct Node* create_node(char data)
 {
   struct Node* new_node = (struct Node*)calloc(1, sizeof(struct Node));
   new_node->data = data;
+  new_node->char_count = 1;
   return new_node;
 }
 
@@ -31,58 +31,65 @@ void add_node(struct Node* parent, struct Node* new_node)
       new_node->parent = parent;
       parent->greaterChild = new_node;
     }
-   } else {
+  } else if (parent->data < new_node->data) {
     if (parent->lesserChild > 0) {
       add_node(parent->lesserChild, new_node);
     } else {
       new_node->parent = parent;
       parent->lesserChild = new_node;
     }
+  } else {
+    parent->char_count++;
   }
 }
 
-// void print_char (struct Node *tree_root, int side)
-// {
-//   struct Node* preorder_node = (struct Node*)calloc(1, sizeof(struct Node));
-//   if (side == 1) {
-//     // left side of tree
-//     preorder_node = tree_root->lesserChild;
-//     printf("%c", preorder_node->data);
-//     if (preorder_node && ((preorder_node->lesserChild != NULL) || preorder_node->parent == NULL)) {
-//       print_char (preorder_node, 1);
-//     }
-//   } else {
-//     // right side of tree
-//     preorder_node = tree_root->greaterChild;
-//     printf("%c", preorder_node->data);
-//       if (preorder_node && ((preorder_node->greaterChild != NULL) || preorder_node->parent == NULL)) {
-//       print_char (preorder_node, 0);
-//     }
-//   }
-//   // if (preorder_node) {
-//   // }
-//   // printf("%c", tree_root->data);
-// }
-
-void print_char (struct Node *tree_root)
+void print_preorder (struct Node *tree_root)
 {
-  printf("%c", tree_root->data);
+  printf("%c:%d - ", tree_root->data, tree_root->char_count);
   if (tree_root->lesserChild != NULL) {
-    print_char (tree_root->lesserChild);
+    print_preorder (tree_root->lesserChild);
   }
   if (tree_root->greaterChild != NULL) {
-    print_char (tree_root->greaterChild);
+    print_preorder (tree_root->greaterChild);
   }
 }
 
+void* print_postorder (struct Node *tree_root)
+{
+  if (tree_root->lesserChild != NULL) {
+    print_postorder (tree_root->lesserChild);
+  }
+  if (tree_root->greaterChild != NULL) {
+    print_postorder (tree_root->greaterChild);
+  }
+  printf("%c:%d - ", tree_root->data, tree_root->char_count);
+  char *node_value = (char*)malloc(sizeof(char)*3);
+  node_value[0] = tree_root->data;
+  node_value[1] = tree_root->char_count;
 
+  printf("count : %d\n", node_value[1]);
+  return node_value;
+}
+
+// void hash (struct Node *tree_root)
+// {
+//   preorder(tree_root);
+//   postorder(tree_root);
+//   if (tree_root->lesserChild != NULL) {
+//     print_postorder (tree_root->lesserChild);
+//   }
+//   if (tree_root->greaterChild != NULL) {
+//     print_postorder (tree_root->greaterChild);
+//   }
+//   printf("%c:%d - ", tree_root->data, tree_root->char_count);
+// }
 
 int main(void)
 {
-  char string[] = "bodras$";
+  char string[] = "cobross";
   struct Node word_root;
   word_root.data = string[0];
-  // word_root.char_count = 1;
+  word_root.char_count = 544;
   word_root.parent = NULL;
   word_root.lesserChild = NULL;
   word_root.greaterChild = NULL;
@@ -97,25 +104,26 @@ int main(void)
     add_node(&word_root, new_node);
   }
 
-  // // print preorder - ROOT, LEFT, RIGHT
-  // for (int i = 0; string[i] != '\0'; ++i) {
-  //   printf("%c", string[i]);
-  // }
-  // printf("\n");
-  // struct Node* preorder_node = &word_root;
-  // while (preorder_node->lesserChild != NULL) {
-  //   preorder_node = preorder_node->lesserChild;
-  // }
-
-  print_char(&word_root);
+  printf("preorder\n");
+  print_preorder(&word_root);
   printf("\n");
 
 
+  printf("postorder\n");
+  void *postorder_value = print_postorder(&word_root);
 
-  // print postorder - LEFT, RIGHT, ROOT
-  // ...
+  printf("\n");
+  printf("@: %p\n", (void*) &postorder_value);
+  printf("@+1: %p\n", (void*)&postorder_value+1);
 
-  printf("done\n");
+  printf("v: %c\n", (char) postorder_value);
+  printf("v+1: %d\n", (unsigned short int)++postorder_value);
+
+  printf("postorder_value: %d\n", (unsigned short int)postorder_value+1);
+  printf("v+1: %d\n", (unsigned short int)++postorder_value);
+  printf("postorder_value: %d\n", (unsigned short int)postorder_value+1);
+
+  // printf("array index of [%d]\n", hash);
 
   return 0;
 }
