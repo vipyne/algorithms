@@ -41,27 +41,40 @@ void add_node(struct Node* parent, struct Node* new_node)
   }
 }
 
-void print_char (struct Node *tree_root, int side)
+// void print_char (struct Node *tree_root, int side)
+// {
+//   struct Node* preorder_node = (struct Node*)calloc(1, sizeof(struct Node));
+//   if (side == 1) {
+//     // left side of tree
+//     preorder_node = tree_root->lesserChild;
+//     printf("%c", preorder_node->data);
+//     if (preorder_node && ((preorder_node->lesserChild != NULL) || preorder_node->parent == NULL)) {
+//       print_char (preorder_node, 1);
+//     }
+//   } else {
+//     // right side of tree
+//     preorder_node = tree_root->greaterChild;
+//     printf("%c", preorder_node->data);
+//       if (preorder_node && ((preorder_node->greaterChild != NULL) || preorder_node->parent == NULL)) {
+//       print_char (preorder_node, 0);
+//     }
+//   }
+//   // if (preorder_node) {
+//   // }
+//   // printf("%c", tree_root->data);
+// }
+
+void print_char (struct Node *tree_root)
 {
-  struct Node* preorder_node = (struct Node*)calloc(1, sizeof(struct Node));
-  if (side == 1) {
-    // left side of tree
-    preorder_node = tree_root->lesserChild;
-    if (preorder_node && ((preorder_node->lesserChild != NULL) || preorder_node->parent == NULL)) {
-      print_char (preorder_node, 1);
-    }
-  } else {
-    // right side of tree
-    preorder_node = tree_root->greaterChild;
-      if (preorder_node && ((preorder_node->greaterChild != NULL) || preorder_node->parent == NULL)) {
-      print_char (preorder_node, 0);
-    }
+  printf("%c", tree_root->data);
+  if (tree_root->lesserChild != NULL) {
+    print_char (tree_root->lesserChild);
   }
-  // if (preorder_node) {
-    printf("%c", preorder_node->data);
-  // }
-  // printf("%c", tree_root->data);
+  if (tree_root->greaterChild != NULL) {
+    print_char (tree_root->greaterChild);
+  }
 }
+
 
 
 int main(void)
@@ -94,13 +107,9 @@ int main(void)
   //   preorder_node = preorder_node->lesserChild;
   // }
 
-  printf("%c", string[0]);
-
-  print_char(&word_root, 1);
+  print_char(&word_root);
   printf("\n");
 
-  print_char(&word_root, 0);
-  printf("\n");
 
 
   // print postorder - LEFT, RIGHT, ROOT
