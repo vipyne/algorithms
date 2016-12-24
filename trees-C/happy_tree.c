@@ -95,13 +95,10 @@ int main(void)
     add_node(&word_root, new_node);
   }
 
-
-
   printf("--- preorder ---\n");
   print_preorder(&word_root);
   printf("    \n --- ---");
   printf("\n");
-
 
   printf("--- postorder ---\n");
   print_postorder(&word_root, unique_hash, -1);
@@ -112,16 +109,6 @@ int main(void)
     printf("-%c", unique_hash[i]);
   }
   printf("\n");
-
-  printf("postorder value: %c\n", (char) postorder_value);
-  printf("postorder value+1: %d\n", (unsigned short int)++postorder_value);
-
-
-  // printf("postorder_value: %d\n", (unsigned short int)postorder_value+1);
-  // printf("v+1: %d\n", (unsigned short int)++postorder_value);
-  // printf("postorder_value: %d\n", (unsigned short int)postorder_value+1);
-
-  // printf("array index of [%d]\n", hash);
 
   return 0;
 }
