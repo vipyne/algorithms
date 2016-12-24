@@ -54,39 +54,30 @@ void print_preorder (struct Node *tree_root)
   }
 }
 
-void print_postorder (struct Node *tree_root)
+void print_postorder (struct Node *tree_root, char *unique_hash, signed int index)
 {
+  index++;
   if (tree_root->lesserChild != NULL) {
-    print_postorder (tree_root->lesserChild);
+    print_postorder (tree_root->lesserChild, unique_hash, index);
   }
   if (tree_root->greaterChild != NULL) {
-    print_postorder (tree_root->greaterChild);
+    print_postorder (tree_root->greaterChild, unique_hash, index);
   }
   printf("%c", tree_root->data);
+
+  // unique_hash = malloc(sizeof(char) * index);
+
+  unique_hash[index] = tree_root->data;
+  printf(":%c:", unique_hash[index]);
+  // return unique_hash;
+
   // printf("%c:%d - ", tree_root->data, tree_root->char_count);
 }
-  // char *node_value = (char*)malloc(sizeof(char)*3);
-  // node_value[0] = tree_root->data;
-  // node_value[1] = tree_root->char_count;
-
-  // printf("count : %d\n", node_value[1]);
-  // return node_value;
-
-// void hash (struct Node *tree_root)
-// {
-//   preorder(tree_root);
-//   postorder(tree_root);
-//   if (tree_root->lesserChild != NULL) {
-//     print_postorder (tree_root->lesserChild);
-//   }
-//   if (tree_root->greaterChild != NULL) {
-//     print_postorder (tree_root->greaterChild);
-//   }
-//   printf("%c:%d - ", tree_root->data, tree_root->char_count);
-// }
 
 int main(void)
 {
+  char *unique_hash = malloc(sizeof(char) * 200);;
+
   char string[] = "badros$";
   struct Node word_root;
   word_root.data = string[0];
@@ -105,15 +96,22 @@ int main(void)
     add_node(&word_root, new_node);
   }
 
+
+
   printf("--- preorder ---\n");
   print_preorder(&word_root);
-  printf("     --- ---\n");
+  printf("    \n --- ---");
   printf("\n");
 
 
   printf("--- postorder ---\n");
-  print_postorder(&word_root);
-  printf("     --- ---\n");
+  print_postorder(&word_root, unique_hash, -1);
+  printf("    \n --- ---");
+  printf("\n");
+
+  for (int i = 1; string[i] != '\0'; ++i) {
+    printf("-%c", unique_hash[i]);
+  }
   printf("\n");
 
   // void *postorder_value = print_postorder(&word_root);
