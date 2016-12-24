@@ -21,7 +21,6 @@ struct Node* create_node(char data)
   return new_node;
 }
 
-// as if just linked list
 void add_node(struct Node* parent, struct Node* new_node)
 {
   if (parent->data < new_node->data) {
@@ -31,7 +30,7 @@ void add_node(struct Node* parent, struct Node* new_node)
       new_node->parent = parent;
       parent->greaterChild = new_node;
     }
-  } else if (parent->data < new_node->data) {
+  } else if (parent->data > new_node->data) {
     if (parent->lesserChild > 0) {
       add_node(parent->lesserChild, new_node);
     } else {
@@ -45,7 +44,8 @@ void add_node(struct Node* parent, struct Node* new_node)
 
 void print_preorder (struct Node *tree_root)
 {
-  printf("%c:%d - ", tree_root->data, tree_root->char_count);
+  printf("%c", tree_root->data);
+  // printf("%c:%d - ", tree_root->data, tree_root->char_count);
   if (tree_root->lesserChild != NULL) {
     print_preorder (tree_root->lesserChild);
   }
@@ -54,7 +54,7 @@ void print_preorder (struct Node *tree_root)
   }
 }
 
-void* print_postorder (struct Node *tree_root)
+void print_postorder (struct Node *tree_root)
 {
   if (tree_root->lesserChild != NULL) {
     print_postorder (tree_root->lesserChild);
@@ -62,14 +62,15 @@ void* print_postorder (struct Node *tree_root)
   if (tree_root->greaterChild != NULL) {
     print_postorder (tree_root->greaterChild);
   }
-  printf("%c:%d - ", tree_root->data, tree_root->char_count);
-  char *node_value = (char*)malloc(sizeof(char)*3);
-  node_value[0] = tree_root->data;
-  node_value[1] = tree_root->char_count;
-
-  printf("count : %d\n", node_value[1]);
-  return node_value;
+  printf("%c", tree_root->data);
+  // printf("%c:%d - ", tree_root->data, tree_root->char_count);
 }
+  // char *node_value = (char*)malloc(sizeof(char)*3);
+  // node_value[0] = tree_root->data;
+  // node_value[1] = tree_root->char_count;
+
+  // printf("count : %d\n", node_value[1]);
+  // return node_value;
 
 // void hash (struct Node *tree_root)
 // {
@@ -86,7 +87,7 @@ void* print_postorder (struct Node *tree_root)
 
 int main(void)
 {
-  char string[] = "cobross";
+  char string[] = "badros$";
   struct Node word_root;
   word_root.data = string[0];
   word_root.char_count = 544;
@@ -104,24 +105,28 @@ int main(void)
     add_node(&word_root, new_node);
   }
 
-  printf("preorder\n");
+  printf("--- preorder ---\n");
   print_preorder(&word_root);
+  printf("     --- ---\n");
   printf("\n");
 
 
-  printf("postorder\n");
-  void *postorder_value = print_postorder(&word_root);
-
+  printf("--- postorder ---\n");
+  print_postorder(&word_root);
+  printf("     --- ---\n");
   printf("\n");
-  printf("@: %p\n", (void*) &postorder_value);
-  printf("@+1: %p\n", (void*)&postorder_value+1);
 
-  printf("v: %c\n", (char) postorder_value);
-  printf("v+1: %d\n", (unsigned short int)++postorder_value);
+  // void *postorder_value = print_postorder(&word_root);
+  // printf("\n");
+  // printf("@: %p\n", (void*) &postorder_value);
+  // printf("@+1: %p\n", (void*)&postorder_value+1);
 
-  printf("postorder_value: %d\n", (unsigned short int)postorder_value+1);
-  printf("v+1: %d\n", (unsigned short int)++postorder_value);
-  printf("postorder_value: %d\n", (unsigned short int)postorder_value+1);
+  // printf("v: %c\n", (char) postorder_value);
+  // printf("v+1: %d\n", (unsigned short int)++postorder_value);
+
+  // printf("postorder_value: %d\n", (unsigned short int)postorder_value+1);
+  // printf("v+1: %d\n", (unsigned short int)++postorder_value);
+  // printf("postorder_value: %d\n", (unsigned short int)postorder_value+1);
 
   // printf("array index of [%d]\n", hash);
 
