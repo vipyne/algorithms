@@ -44,7 +44,8 @@ void add_node(struct Node* parent, struct Node* new_node)
 
 void print_preorder (struct Node *tree_root)
 {
-  printf("%c:%d - ", tree_root->data, tree_root->char_count);
+  printf("%c", tree_root->data);
+  // printf("%c:%d - ", tree_root->data, tree_root->char_count);
   if (tree_root->lesserChild != NULL) {
     print_preorder (tree_root->lesserChild);
   }
@@ -53,7 +54,7 @@ void print_preorder (struct Node *tree_root)
   }
 }
 
-void* print_postorder (struct Node *tree_root)
+void print_postorder (struct Node *tree_root)
 {
   if (tree_root->lesserChild != NULL) {
     print_postorder (tree_root->lesserChild);
@@ -61,35 +62,19 @@ void* print_postorder (struct Node *tree_root)
   if (tree_root->greaterChild != NULL) {
     print_postorder (tree_root->greaterChild);
   }
-  printf("char-%c:count - %d\n", tree_root->data, tree_root->char_count);
-  char *node_value = (char*)malloc(sizeof(char)*3);
-  *(node_value) = (signed char)tree_root->data;
-  *(node_value+sizeof(char)) = (unsigned char)tree_root->char_count;
-  // *(node_value+sizeof(char)*2) = (unsigned char)(tree_root->char_count+sizeof(char));
+  printf("%c", tree_root->data);
 
-  char *krishwantstoprintEVERYTHING = node_value;
-
-//http://stackoverflow.com/questions/6373093/how-to-print-binary-number-via-printf?answertab=active#tab-top
-  for (int i = 0; i < 24 ;++i) {
-    if (*krishwantstoprintEVERYTHING & 1)
-        printf("1");
-    else
-        printf("0");
-    *krishwantstoprintEVERYTHING >>= 1;
-
-  }
-  printf("\n");
-
-  printf("node_value[1] : %d\n", node_value[1]);
-
-  printf(  "countOfarr : %d\n", (short unsigned int)*( node_value+sizeof(char) )  );
-  // printf("sizeof countOfarr : %lu\n", sizeof((short unsigned int)*( node_value+sizeof(char) ) ) );
-  return node_value;
 }
+  // char *node_value = (char*)malloc(sizeof(char)*3);
+  // node_value[0] = tree_root->data;
+  // node_value[1] = tree_root->char_count;
+
+  // printf("count : %d\n", node_value[1]);
+  // return node_value;
 
 int main(void)
 {
-  char string[] = "cobross";
+  char string[] = "badros$";
   struct Node word_root;
   word_root.data = string[0];
   word_root.char_count = 544;
@@ -106,24 +91,24 @@ int main(void)
     add_node(&word_root, new_node);
   }
 
-  printf("preorder\n");
+  printf("--- preorder ---\n");
   print_preorder(&word_root);
+  printf("     --- ---\n");
   printf("\n");
 
 
-  printf("postorder\n");
-  void *postorder_value = print_postorder(&word_root);
-
+  printf("--- postorder ---\n");
+  print_postorder(&word_root);
+  printf("     --- ---\n");
   printf("\n");
-  printf("@: %p\n", (void*) &postorder_value);
-  printf("@+1: %p\n", (void*)&postorder_value+1);
 
   printf("postorder value: %c\n", (char) postorder_value);
   printf("postorder value+1: %d\n", (unsigned short int)++postorder_value);
 
-  printf("postorder_value: %d\n", (unsigned short int)postorder_value+1);
-  printf("v+1: %d\n", (unsigned short int)++postorder_value);
-  printf("postorder_value: %d\n", (unsigned short int)postorder_value+1);
+
+  // printf("postorder_value: %d\n", (unsigned short int)postorder_value+1);
+  // printf("v+1: %d\n", (unsigned short int)++postorder_value);
+  // printf("postorder_value: %d\n", (unsigned short int)postorder_value+1);
 
   // printf("array index of [%d]\n", hash);
 
