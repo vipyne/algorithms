@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 #define CAPACITY 10
 
 // S T A C K
@@ -52,7 +53,7 @@ int peek(struct LL_Cool_Stack *cool_stack)
   }
 
   return 0;
-}
+};
 
 int pop(struct LL_Cool_Stack *cool_stack)
 {
