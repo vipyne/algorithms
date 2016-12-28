@@ -2,15 +2,12 @@
 #include <stdlib.h>
 
 struct Node {
-  // unsigned short int data;
-  char data;
+  unsigned char data;
   unsigned short int char_count;
 
   struct Node* parent;
   struct Node* lesserChild;
   struct Node* greaterChild;
-  // struct Node* leftMostChild;
-  // struct Node* rightSibling;
 };
 
 struct Node* create_node(char data)
@@ -54,30 +51,20 @@ void print_preorder (struct Node *tree_root)
   }
 }
 
-void print_postorder (struct Node *tree_root, char *unique_hash, signed int index)
+void print_postorder (struct Node *tree_root)
 {
-  index++;
   if (tree_root->lesserChild != NULL) {
-    print_postorder (tree_root->lesserChild, unique_hash, index);
+    print_postorder (tree_root->lesserChild);
   }
   if (tree_root->greaterChild != NULL) {
-    print_postorder (tree_root->greaterChild, unique_hash, index);
+    print_postorder (tree_root->greaterChild);
   }
   printf("%c", tree_root->data);
-
-  // unique_hash = malloc(sizeof(char) * index);
-
-  unique_hash[index] = tree_root->data;
-  printf(":%c:", unique_hash[index]);
-  // return unique_hash;
-
   // printf("%c:%d - ", tree_root->data, tree_root->char_count);
 }
 
 int main(void)
 {
-  char *unique_hash = malloc(sizeof(char) * 200);;
-
   char string[] = "badros$";
   struct Node word_root;
   word_root.data = string[0];
@@ -85,8 +72,6 @@ int main(void)
   word_root.parent = NULL;
   word_root.lesserChild = NULL;
   word_root.greaterChild = NULL;
-  // word_root.leftMostChild = NULL;
-  // word_root.rightSibling = NULL;
 
   struct Node* temp_node = &word_root;
   temp_node->data = word_root.data;
@@ -101,13 +86,8 @@ int main(void)
   printf("\n");
 
   printf("--- postorder ---\n");
-  print_postorder(&word_root, unique_hash, -1);
+  print_postorder(&word_root);
   printf("    \n --- ---");
-  printf("\n");
-
-  for (int i = 1; string[i] != '\0'; ++i) {
-    printf("-%c", unique_hash[i]);
-  }
   printf("\n");
 
   return 0;
